@@ -1,5 +1,6 @@
 package au.edu.alveo.uima.tutorial;
 
+import com.nicta.uimavlab.conversions.UIMAAlveoTypeNameMapping;
 import com.nicta.uimavlab.conversions.UIMAToAlveoAnnConverter;
 import com.nicta.vlabclient.TextRestAnnotation;
 import org.apache.uima.cas.Feature;
@@ -32,6 +33,7 @@ public class DKProPosConverter implements UIMAToAlveoAnnConverter {
 
 	private static final String LABEL_FEATURE_NAME = "de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS:PosValue";
 	private static final String PRIMARY_TYPE_NAME = "de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS";
+	private static final String PRIMARY_TYPE_ALVEO_URI = UIMAAlveoTypeNameMapping.getUriForTypeName(PRIMARY_TYPE_NAME);
 
 	@Override
 	public void setTypeSystem(TypeSystem ts) {
@@ -53,12 +55,12 @@ public class DKProPosConverter implements UIMAToAlveoAnnConverter {
 	public TextRestAnnotation convertToAlveo(AnnotationFS ann) throws InvalidAnnotationTypeException, NotInitializedException {
 		if (!handlesTypeName(ann.getType().getName()))
 			throw new InvalidAnnotationTypeException("Annotation " + ann + " is not a subtype of " + PRIMARY_TYPE_NAME);
-		return new TextRestAnnotation(PRIMARY_TYPE_NAME, ann.getFeatureValueAsString(labelFeature), ann.getBegin(), ann.getEnd());
+		return new TextRestAnnotation(PRIMARY_TYPE_ALVEO_URI, ann.getFeatureValueAsString(labelFeature), ann.getBegin(), ann.getEnd());
 	}
 
 	@Override
 	public String getAlveoTypeUriForTypeName(String uimaTypeName) {
-		return PRIMARY_TYPE_NAME;
+		return PRIMARY_TYPE_ALVEO_URI;
 	}
 
 	@Override
