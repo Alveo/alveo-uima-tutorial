@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>au.edu.alveo</groupId>
-	<artifactId>uima-demos</artifactId>
+	<artifactId>alveo-uima-tutorial</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<repositories>
 		<repository>
