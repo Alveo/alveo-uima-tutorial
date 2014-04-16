@@ -75,7 +75,8 @@ public class PosTagDemoAdvanced {
 
 
 		String[] uploadableTypes = new String[] {
-				"de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS"
+				"de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS",
+				"de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence"
 		};
 		AnalysisEngineDescription uploader = AnalysisEngineFactory.createEngineDescription(ItemAnnotationUploader.class,
 				ItemAnnotationUploader.PARAM_VLAB_BASE_URL, serverUrl,
