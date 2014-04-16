@@ -65,9 +65,9 @@ public class PosTagDemoAdvanced {
 				"au.edu.alveo.uima.tutorial.DKProPosConverter"
 		};
 		CollectionReaderDescription reader = ItemListCollectionReader.createDescription(
-				ItemListCollectionReader.PARAM_VLAB_BASE_URL, serverUrl,
-				ItemListCollectionReader.PARAM_VLAB_API_KEY, apiKey,
-				ItemListCollectionReader.PARAM_VLAB_ITEM_LIST_ID, itemListId,
+				ItemListCollectionReader.PARAM_ALVEO_BASE_URL, serverUrl,
+				ItemListCollectionReader.PARAM_ALVEO_API_KEY, apiKey,
+				ItemListCollectionReader.PARAM_ALVEO_ITEM_LIST_ID, itemListId,
 				ItemListCollectionReader.PARAM_INCLUDE_RAW_DOCS, false,
 				ItemListCollectionReader.PARAM_ANNOTATION_CONVERTERS, extraConverters);
 		AnalysisEngineDescription segmenter = AnalysisEngineFactory.createEngineDescription(OpenNlpSegmenter.class);
@@ -79,8 +79,8 @@ public class PosTagDemoAdvanced {
 				"de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence"
 		};
 		AnalysisEngineDescription uploader = AnalysisEngineFactory.createEngineDescription(ItemAnnotationUploader.class,
-				ItemAnnotationUploader.PARAM_VLAB_BASE_URL, serverUrl,
-				ItemAnnotationUploader.PARAM_VLAB_API_KEY, apiKey,
+				ItemAnnotationUploader.PARAM_ALVEO_BASE_URL, serverUrl,
+				ItemAnnotationUploader.PARAM_ALVEO_API_KEY, apiKey,
 				ItemAnnotationUploader.PARAM_ANNOTATION_CONVERTERS, extraConverters,
 				ItemAnnotationUploader.PARAM_UPLOADABLE_UIMA_TYPE_NAMES, uploadableTypes);
 		AnalysisEngineDescription aggAe = AnalysisEngineFactory.createEngineDescription(segmenter, posTagger, uploader);

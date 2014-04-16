@@ -28,18 +28,18 @@ public class PosTagDemo {
 				description = "API key for for your user account, obtainable from the web interface")
 		private String apiKey;
 
-		@Parameter(names = { "--help", "-h", "-?" }, help = true, description = "Display this help text")
+		@Parameter(names = {"--help", "-h", "-?"}, help = true, description = "Display this help text")
 		private boolean help;
 
-		@Parameter(names = { "--descriptor-dir"}, required = false,
+		@Parameter(names = {"--descriptor-dir"}, required = false,
 				description = "If provided, a directory where descriptors will be written")
 		private String descriptorDir = null;
 
-		@Parameter(names = { "-o", "--xmi-output-dir"}, required = true,
+		@Parameter(names = {"-o", "--xmi-output-dir"}, required = true,
 				description = "The directory where the XMI files produced will be written")
-		private String xmiDir;
+		private String xmiDir = null;
 
-		@Parameter(names = { "-i", "--item-list-id"}, required = true, description =
+		@Parameter(names = {"-i", "--item-list-id"}, required = true, description =
 				"The item list ID to convert to XMI")
 		private String itemListId;
 
@@ -56,34 +56,48 @@ public class PosTagDemo {
 		runPipeline(params.serverUrl, params.apiKey, params.xmiDir, params.itemListId);
 	}
 
+	/**
+	 * Run a pipeline which adds POS tags and sentence boundaries to the items.
+	 *
+	 * @param serverUrl  The base URL of the Alveo server
+	 * @param apiKey     The API key for the Alveo server
+	 * @param xmiDir     The directory to write the processed files to (for debugging)
+	 * @param itemListId The ID of the item list to read from the server
+	 * @throws UIMAException
+	 * @throws IOException
+	 */
 	private static void runPipeline(String serverUrl, String apiKey, String xmiDir, String itemListId)
 			throws UIMAException, IOException {
 		CollectionReaderDescription reader = ItemListCollectionReader.createDescription(
-				ItemListCollectionReader.PARAM_VLAB_BASE_URL, serverUrl,
-				ItemListCollectionReader.PARAM_VLAB_API_KEY, apiKey,
-				ItemListCollectionReader.PARAM_VLAB_ITEM_LIST_ID, itemListId,
+				ItemListCollectionReader.PARAM_ALVEO_BASE_URL, serverUrl,
+				ItemListCollectionReader.PARAM_ALVEO_API_KEY, apiKey,
+				ItemListCollectionReader.PARAM_ALVEO_ITEM_LIST_ID, itemListId,
 				ItemListCollectionReader.PARAM_INCLUDE_RAW_DOCS, false);
 		AnalysisEngineDescription segmenter = AnalysisEngineFactory.createEngineDescription(OpenNlpSegmenter.class);
 		AnalysisEngineDescription posTagger = AnalysisEngineFactory.createEngineDescription(OpenNlpPosTagger.class);
-		AnalysisEngineDescription casWriter = AnalysisEngineFactory.createEngineDescription(
-				XmiWriterCasConsumer.class, XmiWriterCasConsumer.PARAM_OUTPUTDIR, xmiDir);
-		casWriter.getAnalysisEngineMetaData().setTypeSystem(reader.getCollectionReaderMetaData().getTypeSystem());
-//		AnalysisEngineDescription aggAe = AnalysisEngineFactory.createEngineDescription(segmenter, posTagger, casWriter);
 
-		String[] labelFeatures = new String[] {
+		String[] labelFeatures = new String[]{
 				"de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS:PosValue",
 				ItemAnnotationUploader.DEFAULT_LABEL_FEATURE
 		};
-		String[] uploadableTypes = new String[] {
+		String[] uploadableTypes = new String[]{
 				"de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS",
 				"de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence"
 		};
 		AnalysisEngineDescription uploader = AnalysisEngineFactory.createEngineDescription(ItemAnnotationUploader.class,
-				ItemAnnotationUploader.PARAM_VLAB_BASE_URL, serverUrl,
-				ItemAnnotationUploader.PARAM_VLAB_API_KEY, apiKey,
+				ItemAnnotationUploader.PARAM_ALVEO_BASE_URL, serverUrl,
+				ItemAnnotationUploader.PARAM_ALVEO_API_KEY, apiKey,
 				ItemAnnotationUploader.PARAM_LABEL_FEATURE_NAMES, labelFeatures,
 				ItemAnnotationUploader.PARAM_UPLOADABLE_UIMA_TYPE_NAMES, uploadableTypes);
-		AnalysisEngineDescription aggAe = AnalysisEngineFactory.createEngineDescription(segmenter, posTagger, uploader);
+		AnalysisEngineDescription aggAe;
+		if (xmiDir != null) {
+			AnalysisEngineDescription casWriter = AnalysisEngineFactory.createEngineDescription(
+					XmiWriterCasConsumer.class, XmiWriterCasConsumer.PARAM_OUTPUTDIR, xmiDir);
+			casWriter.getAnalysisEngineMetaData().setTypeSystem(reader.getCollectionReaderMetaData().getTypeSystem());
+			aggAe = AnalysisEngineFactory.createEngineDescription(segmenter, posTagger, casWriter, uploader);
+		} else {
+			aggAe = AnalysisEngineFactory.createEngineDescription(segmenter, posTagger, uploader);
+		}
 		SimplePipeline.runPipeline(reader, aggAe);
 	}
 
