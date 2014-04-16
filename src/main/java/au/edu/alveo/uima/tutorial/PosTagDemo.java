@@ -2,9 +2,9 @@ package au.edu.alveo.uima.tutorial;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import com.nicta.uimavlab.ItemAnnotationUploader;
-import com.nicta.uimavlab.ItemListCollectionReader;
-import com.nicta.uimavlab.examples.XmiWriterCasConsumer;
+import au.edu.alveo.uima.ItemAnnotationUploader;
+import au.edu.alveo.uima.ItemListCollectionReader;
+import au.edu.alveo.uima.examples.XmiWriterCasConsumer;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import org.apache.uima.UIMAException;
@@ -75,7 +75,8 @@ public class PosTagDemo {
 				ItemAnnotationUploader.DEFAULT_LABEL_FEATURE
 		};
 		String[] uploadableTypes = new String[] {
-				"de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS"
+				"de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS",
+				"de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence"
 		};
 		AnalysisEngineDescription uploader = AnalysisEngineFactory.createEngineDescription(ItemAnnotationUploader.class,
 				ItemAnnotationUploader.PARAM_VLAB_BASE_URL, serverUrl,

@@ -1,8 +1,8 @@
 package au.edu.alveo.uima.tutorial;
 
-import com.nicta.uimavlab.conversions.UIMAAlveoTypeNameMapping;
-import com.nicta.uimavlab.conversions.UIMAToAlveoAnnConverter;
-import com.nicta.vlabclient.TextRestAnnotation;
+import au.edu.alveo.uima.conversions.UIMAAlveoTypeNameMapping;
+import au.edu.alveo.uima.conversions.UIMAToAlveoAnnConverter;
+import au.edu.alveo.client.TextRestAnnotation;
 import org.apache.uima.cas.Feature;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.TypeSystem;
@@ -20,7 +20,7 @@ import java.util.TreeSet;
  * (alternatively we could also write our own UIMA CasAnnotator to output UIMA types which
  * are more straightforwardly convertible. We merely need to have the desired type
  * encoded in a feature (or be happy with the URL automatically generated from its
- * actual type name in {@link com.nicta.uimavlab.conversions.DefaultUIMAToAlveoAnnConverter},
+ * actual type name in {@link au.edu.alveo.uima.conversions.DefaultUIMAToAlveoAnnConverter},
  * and the desired label encoded in another feature)
  */
 public class DKProPosConverter implements UIMAToAlveoAnnConverter {

@@ -15,9 +15,9 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>com.nicta</groupId>
-			<artifactId>uimavlab</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<groupId>au.edu.alveo</groupId>
+			<artifactId>alveo-uima</artifactId>
+			<version>0.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>

@@ -2,8 +2,8 @@ package au.edu.alveo.uima.tutorial;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import com.nicta.uimavlab.ItemAnnotationUploader;
-import com.nicta.uimavlab.ItemListCollectionReader;
+import au.edu.alveo.uima.ItemAnnotationUploader;
+import au.edu.alveo.uima.ItemListCollectionReader;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import org.apache.uima.UIMAException;
