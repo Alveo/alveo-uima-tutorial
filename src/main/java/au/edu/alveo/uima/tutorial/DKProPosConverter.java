@@ -15,7 +15,7 @@ import java.util.TreeSet;
 
 /** Class to handle conversion of POS annotations more sensibly. By default, there are broad
  * leaf annotations for different POS types (V, N etc). If we want all POS annotations to have
- * the same type in Alveo, we need to create a custom map
+ * the same type URI in Alveo, we need to create a custom map
  *
  * (alternatively we could also write our own UIMA CasAnnotator to output UIMA types which
  * are more straightforwardly convertible. We merely need to have the desired type
@@ -32,6 +32,11 @@ public class DKProPosConverter implements UIMAToAlveoAnnConverter {
 	private Set<Type> allowedTypes = new TreeSet<Type>();
 
 	private static final String LABEL_FEATURE_NAME = "de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS:PosValue";
+
+	/** the type URI we're going to use instead of the finer-grained URI -- this happens
+	 * to be just the parent of those types, but this does not have to be the case. This URI could
+	 * in fact be anything.
+	 */
 	private static final String PRIMARY_TYPE_NAME = "de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS";
 	private static final String PRIMARY_TYPE_ALVEO_URI = UIMAAlveoTypeNameMapping.getUriForTypeName(PRIMARY_TYPE_NAME);
 
