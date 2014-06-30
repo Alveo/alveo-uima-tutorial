@@ -130,7 +130,7 @@ public class PosTagDemo {
 				description = "If provided, a directory where descriptors will be written")
 		private String descriptorDir = null;
 
-		@Parameter(names = {"-o", "--xmi-output-dir"}, required = true,
+		@Parameter(names = {"-o", "--xmi-output-dir"}, required = false,
 				description = "The directory where the XMI files produced will be written")
 		private String xmiDir = null;
 
